@@ -1002,8 +1002,8 @@
     <div class="drop-icon">⬡</div>
     <div class="drop-title">Drop any file to X-Ray it</div>
     <div class="drop-sub">
-      We don't just strip metadata.<br>
-      We find every single way someone could identify you from this file.
+      Analyze metadata, embedded signals, and privacy-related file information.<br>
+      We analyze common metadata, forensic signals, and privacy risks that may reveal information about a file or its origin.
     </div>
     <div class="drop-formats">
       <span class="fmt-badge">JPEG</span>
@@ -1075,7 +1075,7 @@
   <div class="section" id="threatsSection">
     <div class="section-header">
       <span class="section-icon">⚠</span>
-      <span class="section-title">Identification Threats Detected</span>
+      <span class="section-title">Potential Privacy Signals Detected</span>
       <span class="section-count" id="threatsCount">0 threats</span>
     </div>
     <div class="threats-grid" id="threatsGrid"></div>
@@ -1119,7 +1119,7 @@
   <!-- ACTIONS -->
   <div class="actions" id="actions">
     <button class="btn btn-primary" onclick="downloadReport()">↓ Download Full Report</button>
-    <button class="btn btn-safe" onclick="scrubAndDownload()">🧼 Remove Metadata & Download</button>
+    <button class="btn btn-safe" onclick="scrubAndDownload()">🧼 Reduce Metadata & Download</button>
     <button class="btn btn-danger" onclick="resetTool()">✕ Clear & Scan New File</button>
     <button class="btn btn-ghost" onclick="copyReport()">⧉ Copy Report as Text</button>
     <div class="scrub-warning" id="scrubWarning"></div>
@@ -1155,6 +1155,10 @@
   <footer>
     <div>GhostFile · <span>100% open source</span> · Zero server contact · Built for privacy</div>
     <div>All analysis runs in your browser using JavaScript · No data ever leaves your device</div>
+    <div class="legal-note">
+      GhostFile is intended for privacy education, digital hygiene, and security research. 
+      GhostFile provides informational analysis only and does not guarantee anonymity or complete metadata removal.
+    </div>
   </footer>
 </div>
 
@@ -3095,7 +3099,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'critical', category: 'metadata',
       name: 'GPS Coordinates Embedded',
-      desc: 'Your exact location (within 3 meters) is stored in this file. Anyone who receives it can pinpoint where it was taken — your home, workplace, daily commute.',
+      desc: 'GPS metadata embedded in this file may reveal where the image was captured.',
       leaks: 'Your precise physical location',
       value: gpsValue,
       fix: 'Use GhostFile strip mode or re-export without location data'
@@ -3107,7 +3111,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'high', category: 'metadata',
       name: 'Camera Hardware Fingerprint',
-      desc: 'The exact make and model of your camera or phone is embedded. Combined with other photos you post online (same camera model), this creates a cross-platform identity link.',
+      desc: 'The exact make and model of your camera or phone is embedded. Device metadata may help correlate files captured using similar hardware or software.',
       leaks: 'Your camera or phone model',
       value: `${exif['Camera Make'] || ''} ${exif['Camera Model'] || ''}`.trim(),
       fix: 'Strip EXIF data before sharing'
@@ -3156,7 +3160,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'high', category: 'metadata',
       name: 'Exact Creation Timestamp',
-      desc: 'Sub-second precision timestamp reveals your timezone, work schedule, sleep patterns. Cross-reference 50 photos and you can map someone\'s entire daily routine.',
+      desc: 'Sub-second precision timestamp reveals your timezone, work schedule, sleep patterns. Timestamp patterns across multiple files may reveal usage habits or approximate timezones.',
       leaks: 'When the file was created and your timezone',
       value: ts,
       fix: 'Strip all datetime fields'
@@ -3237,7 +3241,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'low', category: 'metadata',
       name: 'Flash & Lighting Settings',
-      desc: 'Flash mode, aperture, shutter speed, and ISO together create a "shooting fingerprint" that characterizes your photography style for authorship attribution.',
+      desc: 'Flash mode, aperture, shutter speed, and ISO together may reveal details about capture settings and editing workflow.',
       leaks: 'Your photography style and habits',
       value: captureParts.join(' · '),
       fix: 'Strip full EXIF'
@@ -3264,11 +3268,11 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'high', category: 'forensic',
       name: 'Sensor Noise Pattern (Photo Response Non-Uniformity)',
-      desc: 'Every digital camera sensor has unique manufacturing defects — microscopic variations in pixel sensitivity. This "PRNU fingerprint" uniquely identifies your specific camera chip. It survives compression, cropping, and metadata stripping. Used by law enforcement to link photos to cameras.',
+      desc: 'Images can contain device-specific processing characteristics and sensor artifacts. In some forensic research contexts, these patterns may be analyzed alongside other evidence sources.',
       leaks: 'Your specific camera sensor\'s unique manufacturing fingerprint',
       value: currentImageInfo ? currentImageInfo.summary : 'Present in all digital images — inspect the preview for sensor-dependent texture',
       visualAid: true,
-      fix: 'Apply slight Gaussian noise or use adversarial perturbation tools to disrupt PRNU'
+      fix: 'Re-exporting or resizing images may reduce some device-specific artifacts.'
     });
 
     // 15. JPEG compression artifacts
@@ -3277,7 +3281,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
       threats.push({
         severity: 'medium', category: 'forensic',
         name: 'JPEG Compression Signature',
-        desc: 'The specific quantization tables used in JPEG compression are unique to each software. Photoshop, Lightroom, iPhone, Android — each leaves a detectable compression signature that identifies the export software even after metadata is stripped.',
+        desc: 'The specific quantization tables used in JPEG compression are often associated with different export workflows or software. Photoshop, Lightroom, iPhone, Android — each leaves a detectable compression signature that identifies the export software even after metadata is stripped.',
         leaks: 'What software created or edited the image',
         value: jpegEvidence || 'JPEG quantization table marker not found in the JPEG stream',
         fix: 'Re-export through a different compression tool (e.g. ImageMagick with custom quality)'
@@ -3312,7 +3316,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'high', category: 'forensic',
       name: 'Embedded Thumbnail — Reveals Unedited Version',
-      desc: 'JPEG files store a small thumbnail of the ORIGINAL, unedited image before any cropping or editing. If you cropped out a license plate, face, or location landmark — it is still visible in the hidden thumbnail.',
+      desc: 'JPEG files store a small thumbnail of the ORIGINAL, unedited image before any cropping or editing. If you cropped out a license plate, face, or location landmark — older preview thumbnails may still remain embedded in some files.',
       leaks: 'Original unedited content you thought you deleted',
       value: 'Embedded EXIF thumbnail stream',
       previewMode: 'contrast',
@@ -3338,7 +3342,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'medium', category: 'forensic',
       name: 'Visual Content Leakage (Reflection / Background)',
-      desc: 'Photos of screens, glasses, shiny surfaces, and windows can contain reflections revealing your face, room layout, or surroundings. Background details (street signs, posters, artwork) can geolocate you. Requires manual review — automated tools cannot fully detect this.',
+      desc: 'Photos of screens, glasses, shiny surfaces, and windows can contain reflections revealing your face, room layout, or surroundings. Background details (street signs, posters, artwork) may reveal contextual location details. Requires manual review — automated tools cannot fully detect this.',
       leaks: 'Your face, room layout, location, and personal items',
       value: currentImageInfo ? currentImageInfo.summary : 'Open the Image Evidence Preview section to inspect reflections and background details',
       previewMode: 'shadow',
@@ -3355,7 +3359,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'low', category: 'forensic',
       name: 'Lighting Conditions → Time/Place Inference',
-      desc: 'Color temperature and natural lighting direction in photos can be used to infer the time of day, season, and geographic hemisphere. Combined with weather records, OSINT analysts can narrow location to a specific city on a specific day.',
+      desc: 'Lighting conditions and environmental details may reveal contextual information about when or where an image was captured.',
       leaks: 'When the photo was taken and your general location',
       value: currentImageInfo ? `${currentImageInfo.summary}${lightSourceEvidence}` : `Open the Image Evidence Preview section to inspect tone, light direction, and surroundings${lightSourceEvidence}`,
       previewMode: lightingPreviewMode,
@@ -3368,7 +3372,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'medium', category: 'forensic',
       name: 'Steganographic Data Risk',
-      desc: 'Hidden data can be embedded in image LSBs (least significant bits), invisible to the eye. Platforms like platforms may embed invisible tracking pixels or watermarks. Some malware communicates via steganographic payloads in innocent-looking images.',
+      desc: 'Hidden data can be embedded in image LSBs (least significant bits), invisible to the eye. Platforms like platforms may embed invisible tracking pixels or watermarks. Some files may contain hidden or non-visible embedded data.',
       leaks: 'Hidden invisible tracking data and watermarks',
       value: 'Inverted high-contrast image view',
       previewMode: 'invert',
@@ -3381,7 +3385,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'medium', category: 'forensic',
       name: 'C2PA / AI Provenance Watermark',
-      desc: 'Platforms like Midjourney, DALL-E, and Adobe Firefly embed C2PA (Coalition for Content Provenance and Authenticity) markers in AI-generated images. These cryptographically link the image to the generating account.',
+      desc: 'Platforms like Midjourney, DALL-E, and Adobe Firefly embed C2PA (Coalition for Content Provenance and Authenticity) markers in AI-generated images. Some AI tools may include provenance or attribution metadata within exported files.',
       leaks: 'Your AI generation account and image creation record',
       value: 'C2PA / XMP metadata fields',
       previewMode: 'color',
@@ -3764,7 +3768,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'medium', category: 'behavioral',
       name: 'Camera Default Filename — Device Inference',
-      desc: `"${file.name}" follows the default naming pattern of a specific camera manufacturer or OS. IMG_ is iPhone. DSC_ is Sony/Nikon. DCIM is generic camera. Screenshot_[date] reveals Android version. These patterns identify your device before any metadata is read.`,
+      desc: `"${file.name}" follows the default naming pattern of a specific camera manufacturer or OS. IMG_ is iPhone. DSC_ is Sony/Nikon. DCIM is generic camera. Screenshot_[date] reveals Android version. Filename conventions may provide hints about the originating device or software.`,
       leaks: 'Your camera or phone device type',
       value: file.name,
       fix: 'Rename file to a non-revealing name before sharing'
@@ -3775,7 +3779,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
   threats.push({
     severity: 'low', category: 'forensic',
     name: 'File Size as Compression Fingerprint',
-    desc: 'The exact file size reveals the compression algorithm, quality setting, and export software used. For images, size±2% identifies the exporting application. For documents, size correlates with embedded content and Office version.',
+    desc: 'The exact file size reveals the compression algorithm, quality setting, and export software used. For images, file size patterns can sometimes reflect export settings or compression workflows.. For documents, size correlates with embedded content and Office version.',
     leaks: 'Your export software and compression settings',
     value: formatBytes(file.size),
     fix: 'Re-compress with different quality settings to alter size signature'
@@ -3813,7 +3817,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
   threats.push({
     severity: 'low', category: 'metadata',
     name: 'MIME Type & File Format Fingerprint',
-    desc: `${file.type || ext.toUpperCase()} format choice reveals your software ecosystem. WebP = Chrome/Google ecosystem. HEIC = Apple device. AVIF = cutting-edge encoder. Obscure formats narrow your tooling dramatically.`,
+    desc: `${file.type || ext.toUpperCase()} format choice reveals your software ecosystem. WebP = Chrome/Google ecosystem. HEIC = Apple device. AVIF = cutting-edge encoder. File formats may provide general clues about software ecosystems or workflows.`,
     leaks: 'Your software ecosystem and brand preferences',
     value: file.type || `application/${ext}`,
     fix: 'Convert to universal format (JPEG/PNG) before sharing'
@@ -3824,7 +3828,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
     threats.push({
       severity: 'high', category: 'behavioral',
       name: 'Timezone Inference from Timestamp Patterns',
-      desc: 'When multiple files from the same source are analyzed, timestamp clustering reveals your timezone with high confidence — narrowing location to specific countries or regions even without GPS data.',
+      desc: 'When multiple files from the same source are analyzed, timestamp clustering may suggest approximate timezone or regional usage patterns — narrowing location to specific countries or regions even without GPS data.',
       leaks: 'Your timezone and geographic region',
       value: `EXIF timestamp: ${exif['Date/Time Original']}`,
       fix: 'Strip all timestamps from files before sharing'
@@ -4021,7 +4025,7 @@ function buildThreats(file, buffer, text, exif, imgInfo, officeEvidence = null, 
   threats.push({
     severity: 'high', category: 'forensic',
     name: 'Invisible Tracking Watermark Risk',
-    desc: 'Services like Google Docs, Canva, Adobe, and many enterprise platforms embed invisible watermarks that uniquely identify your account. These survive screenshot and printing. Used by corporations to trace document leaks.',
+    desc: 'Services like Google Docs, Canva, Adobe, and many enterprise platforms embed invisible watermarks that uniquely identify your account. These survive screenshot and printing. Some platforms include embedded watermarking or attribution mechanisms.',
     leaks: 'Your account and document creation information',
     value: currentImageInfo
       ? `Enhanced preview ready: ${currentImageInfo.summary}`
@@ -4263,7 +4267,7 @@ function displayResults(threats, file, text) {
   // Report intro
   const intro = $('reportIntro');
   intro.classList.add('visible');
-  intro.innerHTML = `<strong>What this means:</strong> GhostFile found <strong>${threats.length} ways</strong> someone could identify you from this file — including ${critical} critical vectors that metadata strippers don't address. Standard tools remove EXIF headers. They don't remove your <strong>sensor noise pattern, writing fingerprint, compression signature, or behavioral traces</strong>. This report covers all of them. Read every threat before sharing this file.`;
+  intro.innerHTML = `<strong>What this means:</strong> GhostFile detected <strong>${threats.length} metadata fields and privacy-related signals</strong> that may reveal information about this file or how it was created. Some indicators may remain even after standard metadata cleanup. Review the findings below before sharing this file publicly.`;
 
   // Filter tabs
   $('filterTabs').classList.add('visible');
