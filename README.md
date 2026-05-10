@@ -56,6 +56,7 @@ GhostFile looks across several layers of a file instead of stopping at basic met
 - Detects writing-style fingerprints in text-bearing files
 - Exports a local report archive
 - Includes browser-side metadata cleanup where possible
+- Supports browser-side metadata scrubbing for supported formats
 
 ## Supported Formats
 
@@ -89,6 +90,32 @@ GhostFile is designed for local inspection.
 The app uses browser APIs such as `FileReader`, `Canvas`, media elements, and `AudioContext`. Files are processed in the browser session and are not sent to a server by the app.
 
 Some operating-system-level attributes cannot be read from browser JavaScript. When GhostFile cannot inspect a class of data directly, it reports that limitation instead of pretending to know more than it does.
+
+## Metadata Scrubbing
+
+GhostFile can perform browser-side metadata scrubbing for supported file types.
+
+This feature is intended for privacy awareness, digital hygiene, and educational security research. It helps users inspect and reduce unnecessary embedded metadata before sharing files.
+
+Supported cleanup operations may include:
+
+- EXIF removal
+- GPS coordinate stripping
+- creator/software field cleanup
+- timestamp reduction where possible
+- embedded metadata minimization
+
+All processing is performed locally in the browser whenever supported.
+
+## Responsible Use
+
+GhostFile is intended for privacy education, security research, digital hygiene, and legitimate personal use.
+
+Users are responsible for complying with local laws, workplace policies, platform rules, and evidentiary requirements in their jurisdiction.
+
+This project is not designed to facilitate fraud, impersonation, harassment, evidence tampering, unlawful concealment, or malicious activity.
+
+Metadata reduction does not guarantee anonymity, authenticity removal, or forensic invisibility.
 
 ## Run Locally
 
