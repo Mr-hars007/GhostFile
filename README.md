@@ -167,3 +167,7 @@ The banner and logo should feel minimal, forensic, and technical:
 GhostFile is a privacy inspection and awareness tool. It can reveal many risks and remove some metadata, but it cannot guarantee complete anonymization.
 
 Faces, voices, reflections, writing style, visible locations, and scene details can remain identifiable even after metadata is removed.
+
+## License
+
+Licensed under the MIT License.
