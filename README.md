@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/ghostfile-banner.png" alt="GhostFile - Privacy X-Ray for files" width="100%" />
+  <img src="assets/ghostfile-banner.png" alt="GhostFile Banner" width="100%" />
 </p>
 
-<h1 align="center">GhostFile</h1>
+<h1 align="center">GHOSTFILE</h1>
 
 <p align="center">
   <strong>Privacy X-Ray for files before they leave your device.</strong>
@@ -12,162 +12,344 @@
   <img alt="Static HTML" src="https://img.shields.io/badge/static-HTML-58a6ff?style=for-the-badge&labelColor=0d1117" />
   <img alt="Client side" src="https://img.shields.io/badge/runs-client--side-79c0ff?style=for-the-badge&labelColor=0d1117" />
   <img alt="Zero upload" src="https://img.shields.io/badge/uploads-zero-58a6ff?style=for-the-badge&labelColor=0d1117" />
+  <img alt="Open source" src="https://img.shields.io/badge/open-source-58a6ff?style=for-the-badge&labelColor=0d1117" />
 </p>
 
 <p align="center">
-  <code>metadata</code> | <code>media forensics</code> | <code>audio signals</code> | <code>writing fingerprints</code> | <code>local reports</code>
+  <code>metadata</code> •
+  <code>media forensics</code> •
+  <code>audio signals</code> •
+  <code>writing fingerprints</code> •
+  <code>browser-side analysis</code>
 </p>
 
 ---
 
-## Why GhostFile Exists
+# What Is GhostFile?
 
-Files talk.
+GhostFile is a browser-based privacy and forensic inspection tool that reveals hidden metadata, embedded signals, and identifying traces inside files.
 
-A photo can carry GPS coordinates. A PDF can name the software that made it. A video can expose codec traces, timestamps, audio fingerprints, faces, reflections, and background details. A document can preserve authors, comments, templates, and revision history. Even plain text can reveal writing habits.
+Photos, videos, PDFs, audio files, and even plain text can expose:
+- GPS coordinates
+- device information
+- timestamps
+- embedded thumbnails
+- AI provenance markers
+- writing fingerprints
+- editing software traces
+- codec signatures
+- hidden overlays
 
-GhostFile turns those hidden signals into a readable privacy report, entirely in the browser.
+GhostFile transforms those hidden signals into a readable privacy report — entirely inside your browser.
 
-No upload. No account. No backend. Just drop a file and see what it says about you.
+No uploads.  
+No cloud processing.  
+No account system.  
+No server-side analysis.
 
-## What It Finds
+---
 
-GhostFile looks across several layers of a file instead of stopping at basic metadata.
+# Why It Matters
 
-| Layer | Examples |
-| --- | --- |
-| Metadata | GPS, timestamps, device model, creator fields, editing software |
-| Documents | PDF producer tags, Office authors, comments, templates, revision traces |
-| Images | EXIF, camera hints, embedded thumbnails, compression artifacts |
-| Video | MP4 brands, codecs, track handlers, encoder tags, creation time, visual risks |
-| Audio | waveform, spectrogram, dominant frequencies, noise floor, speech-band energy |
-| Writing | sentence length, vocabulary richness, spelling variant, punctuation habits |
-| Code | emails, URLs, comments, naming style, indentation, TODO patterns |
+Most people think removing visible information is enough.
 
-## Highlights
+It is not.
 
-- Runs as a static browser app
-- Keeps files on the local device
-- Builds a risk score from detected privacy threats
-- Shows extracted evidence instead of vague warnings
-- Includes visual review modes for images, GIFs, and videos
-- Adds manual forensic filters for video inspection
-- Renders audio waveform, oscilloscope, and frequency views
-- Detects writing-style fingerprints in text-bearing files
-- Exports a local report archive
-- Includes browser-side metadata cleanup where possible
-- Supports browser-side metadata scrubbing for supported formats
+A single file may still expose:
+- where it was created
+- which phone or camera captured it
+- when it was edited
+- which software processed it
+- hidden previews
+- compression fingerprints
+- stylistic writing habits
+- audio patterns
+- rendering pipeline traces
 
-## Supported Formats
+GhostFile helps users inspect those risks before sharing files publicly.
 
-| Type | Formats |
-| --- | --- |
-| Images | `JPEG`, `PNG`, `WebP`, `GIF`, `BMP`, `TIFF`, `HEIC` |
-| Documents | `PDF`, `DOCX`, `PPTX`, `XLSX`, `TXT` |
-| Audio | `MP3`, `WAV`, `FLAC`, `AAC`, `OGG`, `M4A` |
-| Video | `MP4`, `MOV`, `WebM`, `MKV`, `AVI` |
-| Archives | `ZIP`, `TAR`, `RAR`, `7Z` |
-| Code / Web | `HTML`, `SVG`, `JS`, `TS`, `PY`, `JAVA`, `GO`, `C/C++`, `CSS`, `JSON`, `YAML` |
+---
 
-## Screens And Reports
+# Features
 
-GhostFile produces a report-style interface with:
+- 100% client-side analysis
+- Zero-upload privacy model
+- Privacy threat scoring
+- Raw metadata extraction
+- Embedded GPS detection
+- Camera/device fingerprint analysis
+- AI provenance / C2PA detection
+- Visual forensic inspection filters
+- Spectrogram & waveform rendering
+- Writing fingerprint analysis
+- Metadata cleanup tools
+- Encrypted downloadable ZIP reports
 
-- threat severity cards
-- raw metadata tables
-- visual privacy review
-- filtered media previews
-- audio analysis panels
-- writing fingerprint summaries
-- local export options
+---
 
-The goal is not only to say "metadata exists." The goal is to explain what the file reveals and why it matters.
+# Screenshots
 
-## Privacy Model
+---
 
-GhostFile is designed for local inspection.
+## Home Interface
 
-The app uses browser APIs such as `FileReader`, `Canvas`, media elements, and `AudioContext`. Files are processed in the browser session and are not sent to a server by the app.
+<p align="center">
+  <img src="./screenshots/home_page.png" width="100%" />
+</p>
 
-Some operating-system-level attributes cannot be read from browser JavaScript. When GhostFile cannot inspect a class of data directly, it reports that limitation instead of pretending to know more than it does.
+Minimal drag-and-drop interface designed for local browser-based privacy inspection.
 
-## Metadata Scrubbing
+---
 
-GhostFile can perform browser-side metadata scrubbing for supported file types.
+## Privacy Threat Dashboard
 
-This feature is intended for privacy awareness, digital hygiene, and educational security research. It helps users inspect and reduce unnecessary embedded metadata before sharing files.
+<p align="center">
+  <img src="./screenshots/dashboard.png" width="100%" />
+</p>
 
-Supported cleanup operations may include:
+GhostFile generates a threat-oriented privacy report showing:
+- severity levels
+- embedded risks
+- forensic indicators
+- metadata exposure
+- evidence-backed findings
 
+---
+
+## Raw Metadata Extraction
+
+<p align="center">
+  <img src="./screenshots/meta_data.png" width="100%" />
+</p>
+
+Extracted metadata may include:
+- GPS coordinates
+- camera details
+- focal length
+- aperture
+- shutter speed
+- timestamps
+- resolution fingerprints
+- embedded software traces
+
+---
+
+## Forensic Color Remapping
+
+<p align="center">
+  <img src="./screenshots/color_remap.png" width="100%" />
+</p>
+
+Advanced luminance remapping helps expose:
+- hidden overlays
+- compression artifacts
+- watermark remnants
+- embedded visual anomalies
+- unnatural image structures
+
+---
+
+## Video Forensic Review
+
+<p align="center">
+  <img src="./screenshots/vedio_review.png" width="100%" />
+</p>
+
+Frame-level visual inspection with:
+- edge emphasis
+- contrast lifting
+- color isolation
+- sharpened forensic modes
+- overlay inspection
+- visual anomaly highlighting
+
+---
+
+## Audio Privacy Analysis
+
+<p align="center">
+  <img src="./screenshots/audio_review.png" width="100%" />
+</p>
+
+Browser-side audio analysis includes:
+- waveform visualization
+- oscilloscope rendering
+- RMS/peak analysis
+- frequency distribution
+- spectrogram inspection
+- dominant frequency mapping
+
+---
+
+## Writing Fingerprint Analysis
+
+<p align="center">
+  <img src="./screenshots/text_review.png" width="100%" />
+</p>
+
+Text-bearing files can reveal:
+- sentence structure
+- punctuation habits
+- vocabulary distribution
+- tone consistency
+- passive voice usage
+- stylistic fingerprints
+
+---
+
+## Encrypted Report Export
+
+<p align="center">
+  <img src="./screenshots/report.png" width="75%" />
+</p>
+
+GhostFile can export privacy inspection reports locally as downloadable ZIP archives.
+
+Features include:
+- custom report naming
+- optional ZIP password protection
+- browser-side archive generation
+- local-only export workflow
+- Windows-compatible encrypted ZIP support
+
+No reports are uploaded or stored remotely.
+
+---
+
+# Supported File Types
+
+| Category | Formats |
+|---|---|
+| Images | JPEG, PNG, WebP, GIF, BMP, TIFF |
+| Documents | PDF, DOCX, TXT |
+| Audio | MP3, WAV, FLAC, AAC |
+| Video | MP4, MOV, WebM |
+| Archives | ZIP |
+| Code/Web | HTML, JS, CSS, JSON, SVG |
+
+---
+
+# Privacy Model
+
+GhostFile is designed around strict local processing.
+
+All analysis happens directly in the browser using:
+- FileReader APIs
+- Canvas APIs
+- AudioContext APIs
+- browser media decoders
+
+Files are never uploaded by the application itself.
+
+---
+
+# Metadata Cleanup
+
+GhostFile includes browser-side metadata reduction tools for supported formats.
+
+Supported cleanup actions may include:
 - EXIF removal
-- GPS coordinate stripping
-- creator/software field cleanup
-- timestamp reduction where possible
+- GPS stripping
+- timestamp reduction
+- software tag cleanup
 - embedded metadata minimization
 
-All processing is performed locally in the browser whenever supported.
+All cleanup runs locally whenever supported.
 
-## Responsible Use
+---
 
-GhostFile is intended for privacy education, security research, digital hygiene, and legitimate personal use.
+# Tech Stack
 
-Users are responsible for complying with local laws, workplace policies, platform rules, and evidentiary requirements in their jurisdiction.
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Canvas API
+- Web Audio API
+- Browser Media APIs
 
-This project is not designed to facilitate fraud, impersonation, harassment, evidence tampering, unlawful concealment, or malicious activity.
+---
 
-Metadata reduction does not guarantee anonymity, authenticity removal, or forensic invisibility.
+# Running Locally
 
-## Run Locally
+Clone the repository:
 
-Open `ghostfile.html` in a modern browser.
+```bash
+git clone https://github.com/yourusername/ghostfile.git
+```
 
-If your browser blocks local file behavior, serve the folder locally:
+Open the project:
+
+```bash
+cd ghostfile
+```
+
+Run a local server:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then visit:
+Visit:
 
 ```text
-http://localhost:8000/ghostfile.html
+http://localhost:8000
 ```
 
-## Project Structure
+---
+
+# Project Structure
 
 ```text
-GhostFile/
-|-- ghostfile.html
-`-- README.md
+GHOSTFILE/
+│
+├── assets/
+├── screenshots/
+├── index.html
+├── README.md
+└── LICENSE.md
 ```
 
-## Visual Identity
+---
 
-GhostFile uses a dark terminal-inspired interface with light blue accents.
+# Responsible Use
 
-The banner and logo should feel minimal, forensic, and technical:
+GhostFile is intended for:
+- privacy awareness
+- digital hygiene
+- educational security research
+- legitimate forensic inspection
 
-- uppercase monospace wordmark
-- light blue primary color
-- near-black grid background
-- subtle scan-line or file-outline symbol
-- no glossy lock icon, shield mascot, or generic antivirus styling
+This project is not intended for:
+- unlawful concealment
+- evidence tampering
+- impersonation
+- harassment
+- malicious activity
 
-## Roadmap
+Removing metadata does not guarantee anonymity.
 
+Visible scene details, faces, voices, reflections, and writing style may still reveal identity.
+
+---
+
+# Roadmap
+
+- Batch analysis
+- Advanced document parsing
+- Archive deep inspection
+- OCR & hidden text analysis
+- Steganography indicators
 - Better MP4/MOV metadata coverage
-- Batch scanning
-- Report themes
-- Before/after metadata diff views
-- More video frame inspection modes
-- Stronger document parser coverage
+- Before/after metadata comparison
 
-## Disclaimer
+---
 
-GhostFile is a privacy inspection and awareness tool. It can reveal many risks and remove some metadata, but it cannot guarantee complete anonymization.
-
-Faces, voices, reflections, writing style, visible locations, and scene details can remain identifiable even after metadata is removed.
-
-## License
+# License
 
 Licensed under the MIT License.
+
+---
+
+<p align="center">
+  Built for privacy, transparency, and digital awareness.
+</p>
